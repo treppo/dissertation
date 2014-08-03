@@ -193,15 +193,9 @@
 % specialists: MinionPro
 \ifthenelse{\boolean{@minionpro}}%
     {%
-    		% in order have Euler math fonts work with Minion, special option is needed
-    		\ifthenelse{\boolean{@eulermath}}%
-    		{%
-        	\PassOptionsToPackage{opticals,mathlf,onlytext}{MinionPro}%
-        	\RequirePackage{MinionPro} %  opticals, fullfamily, osf
-        }{%
-        	\PassOptionsToPackage{opticals,mathlf}{MinionPro}%
-        	\RequirePackage{MinionPro} %  opticals, fullfamily, osf
-        }%
+    		\RequirePackage{fontspec}
+		\RequirePackage{xltxtra}
+		\setromanfont{Minion Pro}
     }{%
         % default: Palatino
         \PassOptionsToPackage{osf,sc}{mathpazo}%
