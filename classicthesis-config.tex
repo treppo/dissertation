@@ -15,7 +15,7 @@
 % 1. Configure classicthesis for your needs here, e.g., remove "drafting" below 
 % in order to deactivate the time-stamp on the pages
 % ****************************************************************************************************
-\PassOptionsToPackage{listings,drafting,subfig,beramono,eulermath,minionpro}{classicthesis}										
+\PassOptionsToPackage{listings,drafting,subfig,eulermath,minionpro}{classicthesis}										
 % ********************************************************************
 % Available options for classicthesis.sty 
 % (see ClassicThesis.pdf for more information):
@@ -111,7 +111,7 @@
 \newcommand{\myfloatalign}{\centering} % to be used with each float for alignment
 \usepackage{caption}
 \captionsetup{format=hang,font=small}
-\usepackage{subfig}  
+\usepackage{subfig}
 % ****************************************************************************************************
 
 
@@ -120,20 +120,17 @@
 % ****************************************************************************************************
 \usepackage{listings} 
 %\lstset{emph={trueIndex,root},emphstyle=\color{BlueViolet}}%\underbar} % for special keywords
-\lstset{language=[LaTeX]Tex,%C++,
+\lstset{language=ruby,
     keywordstyle=\color{RoyalBlue},%\bfseries,
     basicstyle=\small\ttfamily,
     %identifierstyle=\color{NavyBlue},
     commentstyle=\color{Green}\ttfamily,
-    stringstyle=\rmfamily,
-    numbers=none,%left,%
+    numbers=left,
     numberstyle=\scriptsize,%\tiny
-    stepnumber=5,
+    stepnumber=1,
     numbersep=8pt,
     showstringspaces=false,
     breaklines=true,
-    frameround=ftff,
-    frame=single,
     belowcaptionskip=.75\baselineskip
     %frame=L
 } 
