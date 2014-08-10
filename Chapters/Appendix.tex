@@ -3,4 +3,146 @@
 %*******************************************************
 % If problems with the headers: get headings in appendix etc. right
 %\markboth{\spacedlowsmallcaps{Appendix}}{\spacedlowsmallcaps{Appendix}}
-\chapter{Appendix Test}
+\chapter{Appendix A}  \label{testsamples}
+
+\section{Coupling in Test Files of Open Source Ruby Webapplications}
+
+Number in column \emph{S} count calls to stubbed methods of concrete implementations. \\
+Numbers in column \emph{M} count calls to methods of unchecked interface mocks.\\
+Column \emph{C} holds the original \ac{CDCT} value.\\
+The \ac{CDCT} value after the application of role–based mocks is shown in column \emph{CI}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{lXXXX} \toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{Gitlab} \citep{GitLab-B.V.:2014}} \\ \midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\ \midrule
+spec/lib/gitlab/ldap/ldap\_adapter\_spec.rb & 0 & 3 & 1.5 & 1.5 \\
+spec/lib/gitlab/ldap/ldap\_user\_auth\_spec.rb & 11 & 0 & 11 & 5.5 \\
+spec/services/projects/transfer\_service\_spec.rb & 3 & 0 & 3 & 1.5 \\
+spec/services/notification\_service\_spec.rb & 26 & 0 & 26 & 13 \\
+spec/lib/gitlab/ldap/ldap\_access\_spec.rb & 4 & 0 & 4 & 2 \\
+spec/models/gemnasium\_service\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/services/projects/update\_service\_spec.rb & 1 & 1 & 1.5 & 1 \\
+spec/models/milestone\_spec.rb & 3 & 0 & 3 & 1.5 \\
+spec/lib/extracts\_path\_spec.rb & 0 & 3 & 1.5 & 1.5 \\
+spec/services/fork\_service\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/models/merge\_request\_spec.rb & 3 & 0 & 3 & 1.5 \\
+spec/lib/oauth\_spec.rb & 0 & 4 & 2 & 2 \\
+spec/services/git\_push\_service\_spec.rb & 18 & 0 & 18 & 9 \\
+spec/lib/gitlab/backend/shell\_spec.rb & 1 & 1 & 1.5 & 1 \\
+spec/models/forked\_project\_link\_spec.rb & 0 & 1 & 0.5 & 0.5 \\\bottomrule
+\end{tabularx}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{Xcccc}
+\toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{Copycopter} \citep{Thoughtbot-Inc.:2014}} \\
+\midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\
+\midrule
+spec/models/project\_spec.rb & 3 & 0 & 3 & 1.5 \\
+\bottomrule
+\end{tabularx}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{lcccc} \toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{Discourse} \citep{Civilized-Discourse-Construction-Kit-Inc.:2014}} \\ \midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\ \midrule
+spec/components/cooked\_post\_processor\_spec.rb & 27 & 0 & 27 & 13.5 \\
+spec/components/url\_helper\_spec.rb & 5 & 3 & 6.5 & 4 \\
+spec/components/discourse\_updates\_spec.rb & 4 & 0 & 4 & 2 \\
+spec/services/group\_message\_spec.rb & 11 & 0 & 11 & 5.5 \\
+spec/services/user\_updater\_spec.rb & 3 & 2 & 4 & 2.5 \\
+spec/services/user\_blocker\_spec.rb & 8 & 0 & 8 & 4 \\
+
+\bottomrule
+\end{tabularx}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{lXXXX} \toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{refinery cms} \citep{Resolve-Digital:2014}} \\ \midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\ \midrule
+pages/spec/lib/refinery/pages/url\_spec.rb & 5 & 6 & 8 & 5.5 \\
+pages/spec/presenters/refinery/pages/content\_presenter\_spec.rb & 0 & 15 & 7.5 & 7.5 \\
+resources/spec/models/refinery/resource\_spec.rb & 1 & 0 & 1 & 0.5 \\
+\bottomrule
+\end{tabularx}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{lXXXX} \toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{fat-free crm} \citep{Dvorkin:2014}} \\ \midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\ \midrule
+spec/models/polymorphic/task\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/models/entities/opportunity\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/models/users/user\_spec.rb & 2 & 0 & 2 & 1 \\
+spec/models/users/abilities/user\_ability\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/mailers/subscription\_mailer\_spec.rb & 5 & 0 & 5 & 2.5 \\
+spec/models/fields/field\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/lib/mail\_processor/dropbox\_spec.rb & 3 & 0 & 3 & 1.5 \\
+spec/models/fields/custom\_field\_pair\_spec.rb & 0 & 4 & 2 & 2 \\
+spec/lib/secret\_token\_generator\_spec.rb & 9 & 0 & 9 & 4.5 \\
+spec/lib/mail\_processor/base\_spec.rb & 1 & 19 & 10.5 & 10 \\
+spec/models/fields/custom\_field\_spec.rb & 9 & 2 & 10 & 5.5 \\
+spec/models/observers/entity\_observer\_spec.rb & 0 & 9 & 4.5 & 4.5 \\
+spec/lib/fields\_spec.rb & 2 & 2 & 3 & 2 \\
+spec/models/fields/custom\_field\_date\_pair\_spec.rb & 0 & 10 & 5 & 5 \\
+\bottomrule
+\end{tabularx}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{Xcccc} \toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{fulcrum} \citep{Locke:2014}} \\ \midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\ \midrule
+spec/models/story\_observer\_spec.rb & 17 & 0 & 17 & 8.5 \\
+spec/models/note\_spec.rb & 8 & 0 & 8 & 4 \\
+spec/models/story\_spec.rb & 2 & 0 & 2 & 1 \\
+spec/models/project\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/models/note\_spec.rb & 1 & 1 & 1.5 & 1 \\
+spec/models/story\_observer\_spec.rb & 4 & 2 & 5 & 3 \\
+\bottomrule
+\end{tabularx}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{lXXXX} \toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{errbit} \citep{Errbit-Team:2014}} \\ \midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\ \midrule
+spec/models/notification\_service/campfire\_service\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/models/notification\_service/hoiio\_service\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/models/notification\_service/pushover\_service\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/models/notification\_service/hipchat\_service\_spec.rb & 0 & 2 & 1 & 1 \\
+spec/models/notification\_service/gtalk\_service\_spec.rb & 17 & 12 & 23 & 14.5 \\
+spec/interactors/problem\_destroy\_spec.rb & 4 & 0 & 4 & 2 \\
+spec/models/problem\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/models/issue\_trackers/fogbugz\_tracker\_spec.rb & 0 & 2 & 1 & 1 \\
+spec/models/error\_report\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/models/notice\_observer\_spec.rb & 12 & 0 & 12 & 6 \\
+spec/models/notification\_service/hubot\_service\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/models/notification\_service/webhook\_service\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/models/notification\_service/flowdock\_service\_spec.rb & 1 & 0 & 1 & 0.5 \\
+spec/interactors/issue\_creation\_spec.rb & 2 & 0 & 2 & 1 \\
+spec/models/notification\_service/slack\_service\_spec.rb & 2 & 0 & 2 & 1 \\
+\bottomrule
+\end{tabularx}
+
+\vfill
+
+\begin{tabularx}{\textwidth}{lXXXX} \toprule
+\multicolumn{3}{c}{\spacedlowsmallcaps{squaresquash} \citep{Square-Inc.:2014}} \\ \midrule
+\tableheadline{test files} & \spacedlowsmallcaps{S} & \spacedlowsmallcaps{M} & \spacedlowsmallcaps{C} & \spacedlowsmallcaps{CI} \\ \midrule
+spec/controllers/sessions\_controller\_spec.rb & 1 & 4 & 3 & 2.5 \\
+spec/lib/known\_revision\_validator\_spec.rb & 0 & 5 & 2.5 & 2.5 \\
+spec/models/deploy\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/controllers/additions/ldap\_authentication\_helpers\_spec.rb & 15 & 24 & 27 & 19.5 \\
+spec/controllers/api/v1\_controller\_spec.rb & 0 & 1 & 0.5 & 0.5 \\
+spec/models/occurrence\_spec.rb & 16 & 4 & 18 & 10 \\
+spec/lib/service/pager\_duty\_spec.rb & 2 & 0 & 2 & 1 \\
+spec/lib/workers/occurrences\_worker\_spec.rb & 1 & 0 & 1 & 0.5 \\
+\bottomrule
+\end{tabularx}

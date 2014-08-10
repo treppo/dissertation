@@ -3,9 +3,101 @@
 \section{Introduction}
 
 \section{Problem Definition}
+For professional software projects, automated software unit testing is an essential part of development. It can be helpful in checking and asserting the logical behavior of a software unit or module, by testing it in isolation from the rest of the system. To isolate the software unit or \ac{SUT} from all other units it collaborates with (instead of instantiating them in the test), testing mocks can be used to represent the interface of the collaborators for the sake of asserting all method calls are done correctly and, if needed, to return fake responses, that the \ac{SUT} uses to finish its execution. Mocking has three useful properties:
 
-\section{Ruby}
+\begin{enumerate}
+\item They can bring down testing execution time by replacing the need for time–consuming processes (\eg database calls or IO in general)
+\item In the design phase, mocks can stand in for collaborators, that do not exist in the system yet, and can therefore be a useful tool to discover the interface of these new classes.
+\item Because they isolate the \ac{SUT} from its neighbors, changes to collaborators, that don't change their interfaces, require no follow–up work to update the \ac{SUT} or the test. They decrease coupling and increase a system's maintainability.
+\end{enumerate}
+
+In programming languages with explicit interface definitions, such as Java, Clojure or C\#, classes can and mocks to be created by deriving from such an interface definition. The compiler then takes care, that all classes derived from an interface, correctly implement the methods defined in the interface. Therefore mocks and the classes they stand in for, always comply to their interface. In interpreted languages with dynamic type systems, such a guarantee is not possible, as there are no explicit interfaces and there is no compilation step, that executes type checks to discover type errors or mismatches upfront. In the worst case, such mismatches are only caught in a running system, that is already in productive use, when runtime errors occur.
+
+This research will investigate the implementation of role–based mocks to enable interface guarantees and safe, isolated tests in interpreted languages. Role–based mocks will then be evaluated in terms of the effect they have on the coupling of unit tests.
+
+\section{Ruby For Web Applications}
 
 \section{Testing With Rspec--Mocks}
+After deciding on the Ruby language for the implementation and evaluation of the role–based mocking library, it was necessary to have a look at the ecosystem of testing frameworks, that are in use in Ruby and Ruby on Rails web applications.
+
+The prevalent Ruby on Rails framework endorses the testing library Minitest, which is built into the Ruby language itself and is – as the name suggests – a testing framework with basic testing features. But Minitest is not the only supported testing framework, the hot contender is Rspec.
+
+Rspec is a fully featured testing framework, that comes with a powerful \ac{DSL} for describing test cases, an assertion library, that provides flexible and readable test assertions and its own mocking library – Rspec Mocks. Rspec has been a very successful in the Ruby community because of its expressive \ac{DSL} (see \autoref{rspec-dsl-example}), which has been copied by testing frameworks in other languages (\eg Nspec in .NET).
+
+\begin{lstlisting}[float,caption=An example Rspec test,label=rspec-dsl-example,language=ruby]
+describe 'Logger' do
+  subject { described_class.new }
+  
+  it 'has a default log level' do
+    expect(logger.level).to eq 'error'
+  end
+end
+\end{lstlisting}
+
+And indeed all the open source Ruby web applications, that were sampled for this research (see \autoref{testsamples}), use the Rspec testing framework for their automated unit–level tests. In order to evaluate the effect of role–based mocks on test maintainability, it became obvious, that the mocking library to be built has to integrate with Rspec.
+
+Since Rspec has a built–in mocking library of its own – Rspec–Mocks – the change dependency attribute for the sampled unit test files can be compared between the built–in library and the research project library.
+
+Rspec in its latest version has three different kinds of mocks, that each cater for a slightly different use case:
+
+\paragraph{Method Stubs} are a way to intercept a method call to a real class and define a fake return value, that is used in the \ac{SUT}. Stubs use real classes in the test and therefore lead to tight coupling between the test and the stubbed collaborator – \eg if the collaborator's name changes, every test, where is used for stubbing, has to be changed accordingly. See \autoref{rspec-method-stub-example} for an example.
+
+\begin{lstlisting}[caption=An example Rspec test using a method stub,label=rspec-method-stub-example]
+describe 'UserUpdater' do
+  subject { described_class.new }
+  let(:user) { Factory.create(:user) }
+  
+  it 'returns the updated user' do
+    allow(UserRepo).to receive(:find).with(1).and_return(user)
+    updated_user = subject.update(1, address: 'new address')
+    
+    expect(updated_user.address).to equal 'new address'
+  end
+end
+\end{lstlisting}
+
+\paragraph{Doubles} are mocks, which are created ad hoc and can be used instead of any object. They are used as dummy collaborators to the \ac{SUT} to test for message passing between the two classes. Any expected message call to the double can also return a value (see \autoref{rspec-double-example} for the usage of doubles). Doubles are in fact a way to test a role rather than a concrete implementation – the concrete collaborator implementation might be exchanged, but as long as the interface is still the same, the \ac{SUT} and the test don't have to be touched. Unfortunately doubles are not verified: If a double is expected to receive a method call to a method, which does not exist on the real collaborator, that is being mocked (\eg it has been renamed), the test using the wrong method name will still pass. That means, that doubles and the classes they represent can get out of sync. In the worst case, this error will only be discovered at runtime in production!
+
+\begin{lstlisting}[caption=An example Rspec test using a double,label=rspec-double-example]
+describe 'UserFinder' do
+  let(:user_repo) { double('UserRepo') }
+  let(:user) { Factory.create(:user) }
+  subject { described_class.new(user_repo) }
+  
+  it 'finds a user by id in the repo' do
+    expect(user_repo).to receive(:find).with(1).and_return(user)
+    
+    found_user = subject.find(1)
+    
+    expect(found_user).to equal user
+  end
+end
+\end{lstlisting}
+
+\paragraph{Verified Mocks} have been introduced in the current version of Rspec–Mocks. They were added to avoid the aforementioned problem of out of sync doubles by checking if the called method really exists on the mocked collaborator. Therefore if the method of the collaborator is – for example – renamed, the test using the verified mock will fail. Unfortunately verified mocks have the same disadvantages as method stubs – they are tied to a concrete implementations, rather than to an interface and therefore have a high change dependency. See \autoref{rspec-verified-mock-example} for an example using verified mocks.
+
+\begin{lstlisting}[caption=An example Rspec test using a verified mock,label=rspec-verified-mock-example]
+describe 'UserUpdater' do
+  let(:logger) { instance_double('Logger') }
+  subject { described_class.new(logger) }
+  
+  it 'logs every update' do
+    expect(logger).to receive(:log).with('update address: new address')
+    
+    subject.update(1, address: 'new address')
+  end
+end
+\end{lstlisting}
+
+In the sampled web applications only the first two kinds of mocks – stubs and doubles – are used, probably because verified mocks have been added only recently.
+
+Compared to the three available mock types in Rspec, role–based have two benefits:
+
+\begin{enumerate}
+\item Unlike stubs and verified mocks they are not tied to a concrete implementation but only to an interface.
+\item They cannot get out of sync like doubles do because the collaborators are checked to conform to the defined role.
+\end{enumerate}
+
+This comes at the cost of maintaining roles as an explicit interface definition in the tests. But since interfaces are less likely to change than concrete implementations, the maintenance cost of roles is low.
 
 \section{Conclusion}

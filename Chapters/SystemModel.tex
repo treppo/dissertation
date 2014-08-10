@@ -3,6 +3,35 @@
 \section{Introduction}
 
 \section{Requirements For Role--Based Mocks}
+defining roles
+checking conformance – method names, arity, instance and class methods
+mocking roles – method call expectations, call undefined methods, arity, define expected arguments, fake return values
+
+Reflection
+
+Role–based mocks can be seen as a contract between tests and classes and the guarantee, that they stick this contract. Let's have a look at the functional requirements from the a practical perspective:
+
+In the design phase following a test–driven development approach, a developer writes a test for the functionality and the behavior of a new User class, that should send a notification message, when it is suspended. This test is written before the actual User class is implemented:
+
+\begin{lstlisting}[caption=An example Rspec test using a double]
+require 'spec_helper'
+require 'user'
+require 'roles/notifier'
+
+RSpec.describe User, '#suspend!' do
+  it 'notifies the console' do
+    notifier = role_double("Notifier")
+
+    expect(notifier).to receive(:notify).with("suspended")
+
+    user = User.new(notifier)
+    user.suspend!
+  end
+end
+\end{lstlisting}
+
+While writing the test, it becomes obvious, that the User class has a collaborator for notifications, that is expected to receive the "notify" method call with a message as an argument, when a user is being suspended. This often called "Interface discovery", where the interface of classes is discovered through the tests of classes, that access this interface. The collaborator can be any class implementing this method with one message argument, it could be a notifier, that sends an email or write a log message, but what the notifier does with the message is not relevant to the user class. To isolate the user class from a concrete implementation of a notifier, a mock, that represents a notifier role, is used (\texttt{role\_double("Notifier")}). This step makes the User class and its test independent of outside changes – for example the notifier in the system could be altered from a log notifier to an email notifier, the User class and the test would not need to be changed as long as the new notifier sticks to the same interface.
+
 
 \section{Design And Implementation}
 

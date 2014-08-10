@@ -1,9 +1,55 @@
-\begin{thebibliography}{xx}
+\begin{thebibliography}{9}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\harvarditem{Hitz \harvardand\ Montazeri}{1995}{Hitz:1995}
-Hitz, M. \harvardand\ Montazeri, B.  \harvardyearleft 1995\harvardyearright ,
-  Measuring coupling and cohesion in object-oriented systems, {\em in}
-  `Proceedings of the International Symposium on Applied Corporate Computing',
-  Vol.~50, pp.~75--76.
+\bibitem[{{Civilized Discourse Construction Kit,
+  Inc.}}(2014)]{Civilized-Discourse-Construction-Kit-Inc.:2014}
+{{Civilized Discourse Construction Kit, Inc.}}
+\newblock Discourse, 08 2014.
+\newblock URL \url{https://github.com/discourse/discourse}.
+
+\bibitem[Dvorkin(2014)]{Dvorkin:2014}
+Michael Dvorkin.
+\newblock Fat free crm, 08 2014.
+\newblock URL \url{https://github.com/fatfreecrm/fat_free_crm}.
+
+\bibitem[{{Errbit Team}}(2014)]{Errbit-Team:2014}
+{{Errbit Team}}.
+\newblock Errbit, 08 2014.
+\newblock URL \url{https://github.com/errbit/errbit}.
+
+\bibitem[{{GitLab B.V.}}(2014)]{GitLab-B.V.:2014}
+{{GitLab B.V.}}
+\newblock Gitlab, 08 2014.
+\newblock URL \url{https://github.com/gitlabhq/gitlabhq}.
+
+\bibitem[Hitz and Montazeri(1995)]{Hitz:1995}
+Martin Hitz and Behzad Montazeri.
+\newblock Measuring coupling and cohesion in object-oriented systems.
+\newblock In \emph{Proceedings of the International Symposium on Applied
+  Corporate Computing}, volume~50, pages 75--76, 1995.
+
+\bibitem[Locke(2014)]{Locke:2014}
+Malcolm Locke.
+\newblock Fulcrum, 08 2014.
+\newblock URL \url{https://github.com/malclocke/fulcrum}.
+
+\bibitem[{{Resolve Digital}}(2014)]{Resolve-Digital:2014}
+{{Resolve Digital}}.
+\newblock Refinery cms, 08 2014.
+\newblock URL \url{https://github.com/refinery/refinerycms}.
+
+\bibitem[{{Square, Inc.}}(2014)]{Square-Inc.:2014}
+{{Square, Inc.}}
+\newblock Squaresquash web client, 08 2014.
+\newblock URL \url{https://github.com/SquareSquash/web}.
+
+\bibitem[{{Thoughtbot, Inc.}}(2014)]{Thoughtbot-Inc.:2014}
+{{Thoughtbot, Inc.}}
+\newblock Copycopter server, 08 2014.
+\newblock URL \url{https://github.com/copycopter/copycopter-server}.
 
 \end{thebibliography}

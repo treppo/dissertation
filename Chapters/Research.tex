@@ -3,7 +3,66 @@
 \section{Introduction}
 
 \section{Methodology}
+To measure the effect of role–based mocks on maintainability, this study will use a code metric derived from the \ac{CDBC} attribute presented in \cite{Hitz:1995}. It determines the potential amount of needed maintenance work in Client Class $CC$, when a Server Class $SC$ changes.
 
-\section{Analysis}
+\begin{equation*}
+A = \sum_{\substack{\text{accesses $i$ to} \\ \text{implementation}}} \alpha_i + (1 - k) \times \sum_{\substack{\text{accesses $i$ to} \\ \text{interface}}} \alpha_i
+\end{equation*}
+
+\begin{equation*}
+CDBC(CC, SC)= min(n, A)
+\end{equation*}
+where $n$ is the number of methods in the $CC$, that are potentially affected by a change to the Server Class $SC$ and $0 < k < 1$ is the Interface Stability Factor, that grades the interface's stability – stable interfaces like those in a third party library, that are unlikely to change have a low $k$ value.
+
+In terms of test files, the client class and server class are the Test File ($TF$) and the \ac{SUT}'s collaborator classes ($SUTC$) respectively. In order to analyze the change dependency between a Test File and all the \ac{SUT}'s collaborators, the factor $n$ can be dropped because test files are not Object–Oriented classes with methods but rather procedural scripts, that are run sequentially. For the purpose of this study, it is not interesting to calculate the \emph{potential} amount of follow–up work, as with the \ac{CDBC}, but rather the \emph{effective} amount. Therefore it is possible to calculate this change dependency by simply counting the calls to the methods of $SUTC$ in the test file. This modified change dependency attribute – the \ac{CDCT} – can be expressed as follows:
+
+\begin{equation*}
+CDCT(TF, SUTC) = \sum_{impl} \alpha_{impl} + (1 - k) \times \sum_{if} \alpha_{if}
+\end{equation*}
+where $\alpha_{impl}$ are the accesses to methods on concrete implementations of $SUTC$, $0<k<1$ is the Interface Stability Factor and $\alpha_{if}$ are the accesses to interface mocks of $SUTC$.
+
+For the calculation of the average \ac{CDCT} ($ACDCT$) for a large array of test files, we can assume that the Interface Stability Factor $0 < k < 1$ has the value of $0.5$ on average. Thus the $ACDCT$ can be calculated as follows:
+
+\begin{equation*}
+ACDCT(TF, SUTC) = \frac{\sum_{n} \sum_{impl} \alpha_{impl} + 0.5 \times \sum_{n}\sum_{if} \alpha_{if}}{n}
+\end{equation*}
+where $n$ is the number of test files.
+
+To evaluate the effect of role–based mocks on the change dependency of unit tests in web applications, this study will sample test files from real–world web applications. The average \ac{CDCT} for these test files is calculated twice by counting all calls to implementation methods and to mock methods before and after the application of role–based mocks.
+
+Because of the success of the open source movement in recent years and popularity the source code hosting platform Github, which is free for open source projects (and is itself mainly written in Ruby), it is easy to get access to the source code of many Ruby web projects. For this study 68 Rspec test files from 8 popular open source Ruby web applications have been sampled.
+
+\section{Analysis} 
+
+The analysis of the sampled Rspec test files showed that much more tests in the wild use stubbing of method on concrete classes, than interface mocks (\autoref{tab:method-calls}), which results in high maintenance costs.
+
+\begin{table}[b]
+  \myfloatalign
+  \begin{tabular}{l c  c} \toprule
+    & \tableheadline{Sum} & \tableheadline{Average} \\ \midrule
+    Calls to Implementation Method & 281 & 4.13235294117647 \\
+    Calls to Interface Mock Method & 149 & 2.19117647058824 \\ \bottomrule
+  \end{tabular}
+  \caption[Method calls in 68 test files of 8 ruby web projects]{Method calls in 68 test files of 8 ruby web projects}  \label{tab:method-calls}
+\end{table}
+
+This can be shown by the average \ac{CDCT}:
+
+\begin{align*}
+ACDCT(TF, SUTC) & = \frac{281 + 0.5 \times 149}{68} \\
+& = 5.227941176
+\end{align*}
+
+So on average, the test files of the sampled, popular Ruby test files have a change dependency on the \ac{SUT}'s collaborator's of $5.227941176$.
+When all accesses to concrete implementations of $SUTC$ are replaced by checked role–based mocks, the change dependency improves:
+
+\begin{align*}
+ACDCT(TF, SUTC) & = \frac{0 + 0.5 \times 430}{68} \\
+& = 3.161764706
+\end{align*}
+
+This clearly shows, that role–based mocks could improve the change dependency and therefore decrease coupling and increase maintainability of software tests for web applications in an interpreted language by better isolating tests from collaborators.
+
+But increased maintainability is not the only advantage of role–based mocks – the also ensure that the interface of the mocks and the concrete classes implementing the roles never get out of sync.
 
 \section{Conclusion}
